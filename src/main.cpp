@@ -19,7 +19,7 @@ extern "C" {
 
 #define COMMAND unsigned int
 
-#define NOT_DEBUG
+#define DEBUG
 
 #define IR_SEND_PIN 4
 #define HTTP_PORT 80
@@ -152,12 +152,12 @@ boolean connectToWifi(char* ssid, char* pwd, int n_try){
   int i = 0;
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
-    #ifndef NOT_DEBUG
+    #ifdef DEBUG
       Serial.print(".");
     #endif
     i++;
     if (i > n_try) {
-      #ifndef NOT_DEBUG
+      #ifdef DEBUG
         Serial.println("\n\nConnections problems\nToo many time");
       #endif
       return false;
@@ -166,7 +166,7 @@ boolean connectToWifi(char* ssid, char* pwd, int n_try){
 
   WiFi.config(ip,gw,mask);
 
-  #ifndef NOT_DEBUG
+  #ifdef DEBUG
     Serial.println();
     Serial.print("Connected to ");
     Serial.println(staSsid);
@@ -187,7 +187,7 @@ boolean createAPWifi(char* ssid, char* pwd) {
 	WiFi.softAP(ssid, pwd);
 
   IPAddress myIP = WiFi.softAPIP();
-  #ifndef NOT_DEBUG
+  #ifdef DEBUG
   	Serial.print("AP IP address: ");
     Serial.println(myIP);
   #endif
@@ -197,21 +197,21 @@ boolean createAPWifi(char* ssid, char* pwd) {
 
 boolean launchAP() {
   uint8_t precTries = EEPROM.read(COUNTER_EEPROM_ADDRESS);
-  #ifndef NOT_DEBUG
+  #ifdef DEBUG
     Serial.printf("We tried to connect before %d times.\n", precTries);
   #endif
   if(precTries < MAX_RESTARTS_BEFORE_AP_MODE){
     precTries++;
     EEPROM.write(COUNTER_EEPROM_ADDRESS, precTries);
     EEPROM.commit();
-    #ifndef NOT_DEBUG
+    #ifdef DEBUG
       Serial.println("Writed to EEPROM");
     #endif
     return false;
   }
   EEPROM.write(COUNTER_EEPROM_ADDRESS, 0);
   EEPROM.commit();
-  #ifndef NOT_DEBUG
+  #ifdef DEBUG
     Serial.println("We pass the tries. Need to launch AP Mode.");
   #endif
   return true;
@@ -262,32 +262,32 @@ void handleNotFound() {
 }
 
 void handleCommands() {
-  #ifndef NOT_DEBUG
+  #ifdef DEBUG
     Serial.println("Received a command:");
   #endif
 
   if(server.method() != HTTP_PUT) {
     server.send(405, "text/plain", "ERROR, Not good method\n");
-    #ifndef NOT_DEBUG
+    #ifdef DEBUG
       Serial.println("\tNot good method");
     #endif
     return;
   }
   String str_command = server.uri().substring(lastIndexOf(server.uri(), '/') + 1);
-  #ifndef NOT_DEBUG
+  #ifdef DEBUG
     Serial.print("The string of the command is: ");
     Serial.println(str_command);
   #endif
   COMMAND command = parseCommand(str_command);
   if(command == 0) {
     server.send(404, "text/plain", "ERROR, Command not found\n");
-    #ifndef NOT_DEBUG
+    #ifdef DEBUG
       Serial.println("\tCommand not found");
     #endif
     return;
   }
 
-  #ifndef NOT_DEBUG
+  #ifdef DEBUG
     Serial.print("\tGood command: ");
     Serial.println(command, HEX);
     Serial.println();
@@ -312,7 +312,7 @@ void handleSettings() {
   </body>\
   </html>");
 
-  #ifndef NOT_DEBUG
+  #ifdef DEBUG
     Serial.println("Arrived new settings:");
     Serial.println("\tssid:\t" + ssid);
     Serial.println("\tpwd:\t" + pwd);
@@ -333,7 +333,7 @@ void handleGenericCommand() {
 
   if(server.method() != HTTP_PUT) {
     server.send(405, "text/plain", "ERROR, Not good method\n");
-    #ifndef NOT_DEBUG
+    #ifdef DEBUG
       Serial.println("\tNot good method");
     #endif
     return;
@@ -342,7 +342,7 @@ void handleGenericCommand() {
   //Extract the producer and the specific command from the uri. The uri is in the form: /genericcommand/PRODUCER/COMMAND
   String producer = "";
   String command = "";
-  #ifndef NOT_DEBUG
+  #ifdef DEBUG
     Serial.println("Received a GENERIC command:");
     Serial.println(producer + ": 0x" + command);
     Serial.println();
@@ -356,7 +356,7 @@ void handleGenericCommand() {
 void handleRemotes() {
   if(server.method() != HTTP_GET) {
     server.send(405, "text/plain", "ERROR, Not good method\n");
-    #ifndef NOT_DEBUG
+    #ifdef DEBUG
       Serial.println("\tNot good method");
     #endif
     return;
@@ -367,8 +367,10 @@ void handleRemotes() {
 }
 
 void setup() {
-	pinMode(BUILTIN_LED, OUTPUT);
-  digitalWrite(BUILTIN_LED, HIGH);  //high lo spegne
+  #ifdef DEBUG
+	   pinMode(BUILTIN_LED, OUTPUT);
+     digitalWrite(BUILTIN_LED, HIGH);  //high lo spegne
+  #endif
 
   EEPROM.begin(512);
 
@@ -377,8 +379,10 @@ void setup() {
   staSsid = readStringFromEeprom(STA_SSID_POSITION);
   staPwd = readStringFromEeprom(STA_PWD_POSITION);
 
-  Serial.println();
-	Serial.printf("Trying to connect to %s\n", staSsid);
+  #ifdef DEBUG
+      Serial.println();
+    	Serial.printf("Trying to connect to %s\n", staSsid);
+  #endif
 	// Wait for connection
 	if(!connectToWifi(staSsid, staPwd, 30)){
     if(launchAP())
@@ -390,7 +394,9 @@ void setup() {
   }
 
 	if(MDNS.begin("tvremote")) {
-		Serial.println("MDNS responder started");
+    #ifdef DEBUG
+		    Serial.println("MDNS responder started");
+    #endif
 	}
 
 	server.on("/", handleRoot);
@@ -401,9 +407,13 @@ void setup() {
   server.on("/genericcommand", handleGenericCommand);
 	server.onNotFound(handleNotFound);
 	server.begin();
-	Serial.println("HTTP server started");
+  #ifdef DEBUG
+	   Serial.println("HTTP server started");
+  #endif
   irsend.begin();
-  Serial.println("IRSend begin");
+  #ifdef DEBUG
+      Serial.println("IRSend begin");
+  #endif
 }
 
 void loop() {
