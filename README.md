@@ -50,6 +50,27 @@ The file to be modified is `src/detail/RequestHandlerImpl.h`
         }
 ```
 
+## Hardware configuration
+
+The hardware configuration is very simple: it consits in a IR led connected with a resistor to the pin declared in the sketch:
+```c++
+#define IR_SEND_PIN 4
+```
+I need the led driven by more current, so I use a little more complex configuration, with a NPN transistor (I use BC547) driven by the output pin declared and driving the IR led.
+
+<img src="imgs/hardwareConfiguration.jpg"/>
+
+I use a R<sub>led</sub>=1000 ohm and a R<sub>b</sub>=35 ohm (a trimmer).
+
+## How to obtain codes for your TV
+
+If you have a Sony TV probably most of the codes I insert are good for you.</br>
+If you want to use codes from your remote you can use an IR receiver and upload the [IrRecvDumpV2](https://github.com/markszabo/IRremoteESP8266/blob/master/examples/IRrecvDumpV2/IRrecvDumpV2.ino) and write down every code you need. Then if your TV is not a Sony you have to change the
+```c++
+  irsend.sendSony(command, 12);
+```
+line with the correct `sendX()` from `irsend`.
+
 ## License
 
 This project is licensed under the GPLv3 License - see the [LICENSE](LICENSE) file for details
