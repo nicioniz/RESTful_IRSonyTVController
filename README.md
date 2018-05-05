@@ -60,7 +60,7 @@ I need the led driven by more current, so I use a little more complex configurat
 
 <img src="imgs/hardwareConfiguration.jpg"/>
 
-I use a R<sub>led</sub>=1000 ohm and a R<sub>b</sub>=35 ohm (a trimmer).
+I use a R<sub>b</sub>=1000 ohm and a R<sub>led</sub>=35 ohm (a trimmer).
 
 ## How to obtain codes for your TV
 
