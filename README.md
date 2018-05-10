@@ -62,6 +62,15 @@ I need the led driven by more current, so I use a little more complex configurat
 
 I use a R<sub>b</sub>=1000 ohm and a R<sub>led</sub>=35 ohm (a trimmer).
 
+### Implementation
+
+Here there are some images that represents how I mount the components.
+<table>
+  <img src="imgs/systemParts.jpg" height="50%"/>
+  &nbsp;&nbsp;&nbsp;
+  <img src="imgs/systemWhole.jpg" height="30%"/>
+</table>
+
 ## How to obtain codes for your TV
 
 If you have a Sony TV probably most of the codes I insert are good for you.</br>
