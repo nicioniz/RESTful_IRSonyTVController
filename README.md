@@ -65,10 +65,15 @@ I use a R<sub>b</sub>=1000 ohm and a R<sub>led</sub>=35 ohm (a trimmer).
 ### Implementation
 
 Here there are some images that represents how I mount the components.
-<table>
-  <img src="imgs/systemParts.jpg" height="50%"/>
-  &nbsp;&nbsp;&nbsp;
-  <img src="imgs/systemWhole.jpg" height="30%"/>
+<table border=0 style="border: none">
+  <tr>
+    <td>
+      <img src="imgs/systemParts.jpg" width="100%"/>
+    </td>
+    <td>
+      <img src="imgs/systemWhole.jpg" width="100%"/>
+    </td>
+  </tr>
 </table>
 
 ## How to obtain codes for your TV
