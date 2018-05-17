@@ -68,10 +68,10 @@ Here there are some images that represents how I mount the components.
 <table border=0 style="border: none">
   <tr>
     <td>
-      <img src="imgs/systemParts.jpg" width="100%"/>
+      <img src="imgs/systemParts.jpg" width="50%"/>
     </td>
     <td>
-      <img src="imgs/systemWhole.jpg" width="100%"/>
+      <img src="imgs/systemWhole.jpg" width="50%"/>
     </td>
   </tr>
 </table>
