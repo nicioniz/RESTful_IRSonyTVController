@@ -83,7 +83,7 @@ If you want to use codes from your remote you can use an IR receiver, upload the
 ```c++
   irsend.sendSony(command, 12);
 ```
-line with the correct `sendX()` from `irsend`, where `X` is the correct prodicer found by the program.
+line with the correct `sendX()` from `irsend`, where `X` is the correct producer found by the program.
 
 ## License
 
