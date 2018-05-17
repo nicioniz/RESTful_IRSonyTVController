@@ -79,11 +79,11 @@ Here there are some images that represents how I mount the components.
 ## How to obtain codes for your TV
 
 If you have a Sony TV probably most of the codes I insert are good for you.</br>
-If you want to use codes from your remote you can use an IR receiver and upload the [IrRecvDumpV2](https://github.com/markszabo/IRremoteESP8266/blob/master/examples/IRrecvDumpV2/IRrecvDumpV2.ino) and write down every code you need. Then if your TV is not a Sony you have to change the
+If you want to use codes from your remote you can use an IR receiver, upload the [IrRecvDumpV2](https://github.com/markszabo/IRremoteESP8266/blob/master/examples/IRrecvDumpV2/IRrecvDumpV2.ino) and write down every code you need. Then if your TV is not a Sony you have to change the
 ```c++
   irsend.sendSony(command, 12);
 ```
-line with the correct `sendX()` from `irsend`.
+line with the correct `sendX()` from `irsend`, where `X` is the correct prodicer found by the program.
 
 ## License
 
